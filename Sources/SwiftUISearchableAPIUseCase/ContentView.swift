@@ -28,8 +28,8 @@ struct ContentView: View {
             placement: .navigationBarDrawer(displayMode: .always),
             prompt: "Search"
         )
-        .searchScopes($viewModel.scope) {
-            ForEach(ViewModel.SearchScope.allCases + [nil], id: \.self) { scope in
+        .searchScopes($viewModel.assetType) {
+            ForEach(ViewModel.AssetType.allCases + [nil], id: \.self) { scope in
                 Text(scope?.rawValue ?? "all")
                     .tag(scope)
             }
@@ -64,5 +64,3 @@ private let searchPublisher: (String) -> ViewModel.SearchResultsPublisher = { st
     return Just(filtered)
         .eraseToAnyPublisher()
 }
-
-

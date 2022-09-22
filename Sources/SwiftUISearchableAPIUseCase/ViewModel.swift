@@ -12,7 +12,7 @@ final class ViewModel: ObservableObject {
     @Published var searchText = ""
     @Published private var suggestions = [SearchSuggestionItem].samples
     @Published private(set) var searchResults = [SearchResultItem]()
-    @Published var scope: SearchScope?// = .crypto
+    @Published var assetType: AssetType?
     
     typealias SearchResultsPublisher = AnyPublisher<[SearchResultItem], Never>
     
@@ -26,25 +26,24 @@ final class ViewModel: ObservableObject {
     var searchSuggestions: [SearchSuggestionItem] {
         suggestions.filter {
             $0.title.lowercased().hasPrefix(searchText.lowercased())
-            && (scope == nil ? true : $0.type == scope)
+            && (assetType == nil ? true : $0.type == assetType)
         }
     }
-
-//    var filteredMessages: [Message] {
-//        if searchText.isEmpty {
-//            return messages
-//        } else {
-//            return messages.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
-//        }
-//    }
     
-    enum SearchScope: String, CaseIterable {
+    //    var filteredMessages: [Message] {
+    //        if searchText.isEmpty {
+    //            return messages
+    //        } else {
+    //            return messages.filter { $0.text.localizedCaseInsensitiveContains(searchText) }
+    //        }
+    //    }
+    
+    enum AssetType: String, CaseIterable {
         case currency
         case crypto
         case stock
         case derivative
     }
-
 }
 
 struct SearchResultItem: Identifiable {
@@ -57,7 +56,7 @@ struct SearchSuggestionItem: Identifiable {
     let title: String
     let text: String
     let icon: String
-    let type: ViewModel.SearchScope
+    let type: ViewModel.AssetType
     
     var id: String { title }
 }
