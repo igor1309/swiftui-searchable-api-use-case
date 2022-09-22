@@ -26,10 +26,10 @@ struct ContentView: View {
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Search"
+            prompt: "Enter \"U\" or \"Uu\" to start"
         )
         .searchScopes($viewModel.assetType) {
-            ForEach(ViewModel.AssetType.allCases + [nil], id: \.self) { scope in
+            ForEach(Asset.AssetType.allCases + [nil], id: \.self) { scope in
                 Text(scope?.rawValue ?? "all")
                     .tag(scope)
             }
@@ -44,7 +44,7 @@ struct ContentView: View {
             .font(.headline)
     }
     
-    private func searchSuggestionView(item: SearchSuggestionItem) -> some View {
+    private func searchSuggestionView(item: Asset) -> some View {
         Label(item.title, systemImage: item.icon)
             .searchCompletion(item.text)
     }

@@ -10,9 +10,9 @@ import Foundation
 
 final class ViewModel: ObservableObject {
     @Published var searchText = ""
-    @Published private var suggestions = [SearchSuggestionItem].samples
+    @Published private var suggestions = [Asset].samples
     @Published private(set) var searchResults = [SearchResultItem]()
-    @Published var assetType: AssetType?
+    @Published var assetType: Asset.AssetType?
     
     typealias SearchResultsPublisher = AnyPublisher<[SearchResultItem], Never>
     
@@ -23,7 +23,7 @@ final class ViewModel: ObservableObject {
             .assign(to: &$searchResults)
     }
     
-    var searchSuggestions: [SearchSuggestionItem] {
+    var searchSuggestions: [Asset] {
         suggestions.filter {
             $0.title.lowercased().hasPrefix(searchText.lowercased())
             && (assetType == nil ? true : $0.type == assetType)
@@ -38,12 +38,6 @@ final class ViewModel: ObservableObject {
     //        }
     //    }
     
-    enum AssetType: String, CaseIterable {
-        case currency
-        case crypto
-        case stock
-        case derivative
-    }
 }
 
 struct SearchResultItem: Identifiable {
@@ -52,23 +46,30 @@ struct SearchResultItem: Identifiable {
     var id: String { title }
 }
 
-struct SearchSuggestionItem: Identifiable {
+struct Asset: Identifiable {
     let title: String
     let text: String
     let icon: String
-    let type: ViewModel.AssetType
+    let type: AssetType
     
     var id: String { title }
+
+    enum AssetType: String, CaseIterable {
+        case currency
+        case crypto
+        case stock
+        case derivative
+    }
 }
 
 extension Array where Element == SearchResultItem {
     static let samples: Self = [
-        "aa", "aaa", "aaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa",
+        "uu", "uuu", "uuuu", "uuuuu", "uuuuuu", "uuuuuuu",
         "bbbb", "ccc", "dd"]
         .map(SearchResultItem.init)
 }
 
-extension Array where Element == SearchSuggestionItem {
+extension Array where Element == Asset {
     static let samples: Self = [
         .init(title: "usdt", text: "tether", icon: "t.circle", type: .crypto),
         .init(title: "usdf", text: "USD Future", icon: "dollarsign.circle", type: .derivative),
