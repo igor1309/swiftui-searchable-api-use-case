@@ -12,7 +12,7 @@ final class ViewModel: ObservableObject {
     @Published var searchText = ""
     @Published private var suggestions = [SearchSuggestionItem].samples
     @Published private(set) var searchResults = [SearchResultItem]()
-    @Published var scope: SearchScope = .crypto
+    @Published var scope: SearchScope?// = .crypto
     
     typealias SearchResultsPublisher = AnyPublisher<[SearchResultItem], Never>
     
@@ -26,6 +26,7 @@ final class ViewModel: ObservableObject {
     var searchSuggestions: [SearchSuggestionItem] {
         suggestions.filter {
             $0.title.lowercased().hasPrefix(searchText.lowercased())
+            && (scope == nil ? true : $0.type == scope)
         }
     }
 
@@ -56,6 +57,7 @@ struct SearchSuggestionItem: Identifiable {
     let title: String
     let text: String
     let icon: String
+    let type: ViewModel.SearchScope
     
     var id: String { title }
 }
@@ -69,8 +71,9 @@ extension Array where Element == SearchResultItem {
 
 extension Array where Element == SearchSuggestionItem {
     static let samples: Self = [
-        .init(title: "aaa", text: "aaa", icon: "star"),
-        .init(title: "Aaa", text: "Aaaa aa aaaaaaaa", icon: "star"),
-        .init(title: "Bbb", text: "Bb bbbbbb bbb", icon: "scribble"),
+        .init(title: "usdt", text: "tether", icon: "t.circle", type: .crypto),
+        .init(title: "usdf", text: "USD Future", icon: "dollarsign.circle", type: .derivative),
+        .init(title: "uss", text: "US Stock", icon: "dollarsign.square", type: .stock),
+        .init(title: "usdeur", text: "USD/EUR", icon: "eurosign.circle", type: .currency),
     ]
 }

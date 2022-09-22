@@ -29,8 +29,8 @@ struct ContentView: View {
             prompt: "Search"
         )
         .searchScopes($viewModel.scope) {
-            ForEach(ViewModel.SearchScope.allCases, id: \.self) { scope in
-                Text(scope.rawValue)
+            ForEach(ViewModel.SearchScope.allCases + [nil], id: \.self) { scope in
+                Text(scope?.rawValue ?? "all")
                     .tag(scope)
             }
         }
