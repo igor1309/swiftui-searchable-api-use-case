@@ -26,7 +26,7 @@ public struct ContentView: View {
             .animation(.easeInOut, value: viewModel.assets)
             .listStyle(.plain)
             .navigationTitle("Watch List")
-            .navigationBarTitleDisplayMode(.inline)
+            // .navigationBarTitleDisplayMode(.inline)
         }
         .searchable(
             text: $viewModel.searchText,
@@ -34,9 +34,7 @@ public struct ContentView: View {
             prompt: "Search currencies, cryptos, stocks..."
         )
         .searchScopes($viewModel.assetType, scopes: scopes)
-//        .searchSuggestions {
-//            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
-//        }
+        .searchSuggestions(searchSuggestions)
     }
 
     @ViewBuilder
@@ -67,6 +65,10 @@ public struct ContentView: View {
                     .tag(scope)
             }
         }
+    }
+    
+    private func searchSuggestions() -> some View {
+        ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
     }
     
     private func searchSuggestionView(item: AssetSuggestion) -> some View {
