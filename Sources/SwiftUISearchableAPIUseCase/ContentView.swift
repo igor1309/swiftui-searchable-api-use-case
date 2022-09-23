@@ -8,36 +8,6 @@
 import Combine
 import SwiftUI
 
-struct ListView: View {
-    @Environment(\.isSearching) var isSearching
-    
-    @ObservedObject private var viewModel: ViewModel
-    
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
-    
-    var body: some View {
-        List {
-            ForEach(viewModel.assets, content: searchResultView)
-        }
-        .onChange(of: isSearching, perform: viewModel.setIsSearching(to:))
-    }
-    
-    @ViewBuilder
-    private func searchResultView(asset: Asset) -> some View {
-        if viewModel.shouldShowSearchResults {
-            SearchResultAssetView(
-                asset: asset,
-                isInList: viewModel.isInList(asset),
-                toggleInList: viewModel.toggleInList
-            )
-        } else {
-            AssetView(asset: asset)
-        }
-    }
-}
-
 struct ContentView: View {
     
     @ObservedObject private var viewModel: ViewModel
@@ -79,12 +49,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(viewModel: .init(search: searchPublisher))
             .preferredColorScheme(.dark)
     }
-}
-
-private let searchPublisher: (String) -> ViewModel.SearchResultsPublisher = { string in
-    let filtered = [Asset].samples
-        .filter { $0.title.lowercased().hasPrefix(string.lowercased()) }
-    
-    return Just(filtered)
-        .eraseToAnyPublisher()
 }
