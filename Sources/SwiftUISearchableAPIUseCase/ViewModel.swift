@@ -10,7 +10,7 @@ import Foundation
 
 final class ViewModel: ObservableObject {
     @Published var searchText = ""
-    @Published private var suggestions = [Asset].samples
+    @Published private var suggestions = [AssetSuggestion].samples
     @Published private(set) var searchResults = [SearchResultItem]()
     @Published var assetType: AssetType?
     
@@ -25,7 +25,7 @@ final class ViewModel: ObservableObject {
             .assign(to: &$searchResults)
     }
     
-    var searchSuggestions: [Asset] {
+    var searchSuggestions: [AssetSuggestion] {
         suggestions.filter {
             $0.title.lowercased().hasPrefix(searchText.lowercased())
             && (assetType == nil ? true : $0.type == assetType)
@@ -56,7 +56,7 @@ struct SearchResultItem: Identifiable {
     var id: String { title }
 }
 
-struct Asset: Identifiable {
+struct AssetSuggestion: Identifiable {
     let title: String
     let text: String
     let type: AssetType
@@ -92,7 +92,7 @@ extension Array where Element == SearchResultItem {
         .map(SearchResultItem.init)
 }
 
-extension Array where Element == Asset {
+extension Array where Element == AssetSuggestion {
     static let samples: Self = [
         .init(title: "Tether", text: "usdt", type: .crypto),
         .init(title: "USD Future", text: "usdf", type: .derivative),

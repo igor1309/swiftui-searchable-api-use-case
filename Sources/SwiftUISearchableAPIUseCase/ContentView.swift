@@ -92,7 +92,7 @@ struct ContentView: View {
 //        }
     }
     
-    private func searchSuggestionView(item: Asset) -> some View {
+    private func searchSuggestionView(item: AssetSuggestion) -> some View {
         Label(item.title, systemImage: item.icon)
             .searchCompletion(item.text)
     }
