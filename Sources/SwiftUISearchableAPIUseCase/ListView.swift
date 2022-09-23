@@ -40,6 +40,9 @@ struct ListView: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView(viewModel: .init(search: searchPublisher))
+        NavigationView {
+            ListView(viewModel: .init(search: searchPublisher))
+        }
+        .preferredColorScheme(.dark)
     }
 }
