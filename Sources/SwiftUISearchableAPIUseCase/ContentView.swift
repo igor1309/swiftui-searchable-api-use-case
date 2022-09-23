@@ -48,6 +48,13 @@ struct ContentView: View {
             )
         } else {
             AssetView(asset: asset)
+                .contextMenu {
+                    Button(role: .destructive) {
+                        viewModel.remove(asset: asset)
+                    } label: {
+                        Label("Remove", systemImage: "trash")
+                    }
+                }
         }
     }
     

@@ -62,16 +62,20 @@ final class ViewModel: ObservableObject {
         self.isSearching = isSearching
     }
     
-    func isInList(_ item: Asset) -> Bool {
-        Set(watchedAssets).contains(item)
+    func isInList(_ asset: Asset) -> Bool {
+        Set(watchedAssets).contains(asset)
     }
     
-    func toggleInList(_ item: Asset) {
-        if isInList(item) {
-            watchedAssets.removeAll(where: { $0 == item })
+    func toggleInList(_ asset: Asset) {
+        if isInList(asset) {
+            remove(asset: asset)
         } else {
-            watchedAssets.append(item)
+            watchedAssets.append(asset)
         }
+    }
+    
+    func remove(asset: Asset) {
+        watchedAssets.removeAll(where: { $0 == asset })
     }
 }
 
