@@ -7,41 +7,42 @@
 
 import SwiftUI
 
-struct ListView: View {
+struct ListView<AssetView: View>: View {
     
     @Environment(\.isSearching) private var isSearching
     
-    @ObservedObject private var viewModel: ViewModel
+    private let assets: [Asset]
+    private let setIsSearching: (Bool) -> Void
+    private let assetView: (Asset) -> AssetView
     
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    init(
+        assets: [Asset],
+        setIsSearching: @escaping (Bool) -> Void,
+        assetView: @escaping (Asset) -> AssetView
+    ) {
+        self.assets = assets
+        self.setIsSearching = setIsSearching
+        self.assetView = assetView
     }
     
     var body: some View {
         List {
-            ForEach(viewModel.assets, content: searchResultView)
+            ForEach(assets, content: assetView)
         }
-        .onChange(of: isSearching, perform: viewModel.setIsSearching(to:))
-    }
-    
-    @ViewBuilder
-    private func searchResultView(asset: Asset) -> some View {
-        if viewModel.shouldShowSearchResults {
-            SearchResultAssetView(
-                asset: asset,
-                isInList: viewModel.isInList(asset),
-                toggleInList: viewModel.toggleInList
-            )
-        } else {
-            AssetView(asset: asset)
-        }
+        .onChange(of: isSearching, perform: setIsSearching)
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ListView(viewModel: .init(search: searchPublisher))
+            ListView(
+                assets: .samples,
+                setIsSearching: { _ in }
+            ) { Text($0.title) }
+                .listStyle(.plain)
+                .navigationBarTitle("Assets")
+                .navigationBarTitleDisplayMode(.inline)
         }
         .preferredColorScheme(.dark)
     }

@@ -18,9 +18,13 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            ListView(viewModel: viewModel)
-                .listStyle(.plain)
-                .navigationTitle("Title")
+            ListView(
+                assets: viewModel.assets,
+                setIsSearching: viewModel.setIsSearching,
+                assetView: assetView
+            )
+            .listStyle(.plain)
+            .navigationTitle("Title")
         }
         .searchable(
             text: $viewModel.searchText,
@@ -35,6 +39,19 @@ struct ContentView: View {
         }
         .searchSuggestions {
             ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+        }
+    }
+
+    @ViewBuilder
+    private func assetView(asset: Asset) -> some View {
+        if viewModel.shouldShowSearchResults {
+            SearchResultAssetView(
+                asset: asset,
+                isInList: viewModel.isInList(asset),
+                toggleInList: viewModel.toggleInList
+            )
+        } else {
+            AssetView(asset: asset)
         }
     }
     
