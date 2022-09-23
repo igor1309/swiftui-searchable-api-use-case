@@ -19,29 +19,21 @@ struct ListView: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.searchResults, content: searchResultView)
-        }
-        .safeAreaInset(edge: .bottom) {
-            VStack {
-                Text(isSearching ? "Searching" : "Not Searching")
-                Text(viewModel.isSearching ? "Searching" : "Not Searching")
-                    .foregroundColor(.secondary)
-            }
-            .font(.caption)
+            ForEach(viewModel.assets, content: searchResultView)
         }
         .onChange(of: isSearching, perform: viewModel.setIsSearching(to:))
     }
     
     @ViewBuilder
-    private func searchResultView(item: SearchResultItem) -> some View {
-        if isSearching && !viewModel.searchText.isEmpty {
-            let isInList = viewModel.isInList(item)
-            let title = isInList ? "Item in list" : "Add item to list"
-            let systemImage = isInList ? "checkmark" : "plus"
-            
+    private func searchResultView(item: Asset) -> some View {
+        if viewModel.shouldShowSearchResults {
             HStack {
+                let isInList = viewModel.isInList(item)
+                let title = isInList ? "Item in list" : "Add item to list"
+                let systemImage = isInList ? "checkmark" : "plus"
+                
                 Button {
-                    
+                    viewModel.toggleItem(item)
                 } label: {
                     Label(title, systemImage: systemImage)
                         .labelStyle(.iconOnly)
@@ -51,7 +43,7 @@ struct ListView: View {
                         .imageScale(.large)
                 }
                 .buttonStyle(.plain)
-                .foregroundColor(.accentColor)
+                .foregroundColor(isInList ? .green : .accentColor)
              
                 Text(item.title)
             }
@@ -106,7 +98,7 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 private let searchPublisher: (String) -> ViewModel.SearchResultsPublisher = { string in
-    let filtered = [SearchResultItem].samples
+    let filtered = [Asset].samples
         .filter { $0.title.lowercased().hasPrefix(string.lowercased()) }
     
     return Just(filtered)

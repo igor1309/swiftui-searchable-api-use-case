@@ -9,14 +9,15 @@ import Combine
 import Foundation
 
 final class ViewModel: ObservableObject {
+    @Published private var watchedAssets = [Asset]()
+    @Published private var searchResults = [Asset]()
     @Published var searchText = ""
-    @Published private var suggestions = [AssetSuggestion].samples
-    @Published private(set) var searchResults = [SearchResultItem]()
     @Published var assetType: AssetType?
+    @Published private var suggestions = [AssetSuggestion].samples
     
-    var isSearching: Bool = false
+    private var isSearching: Bool = false
     
-    typealias SearchResultsPublisher = AnyPublisher<[SearchResultItem], Never>
+    typealias SearchResultsPublisher = AnyPublisher<[Asset], Never>
     
     init(search: @escaping (String) -> SearchResultsPublisher) {
         $searchText
@@ -25,11 +26,25 @@ final class ViewModel: ObservableObject {
             .assign(to: &$searchResults)
     }
     
+    var shouldShowSearchResults: Bool {
+        isSearching && !searchText.isEmpty
+    }
+
+    var assets: [Asset] {
+        shouldShowSearchResults
+        ? searchResults.filter { isSelected($0.type) }
+        : watchedAssets
+    }
+    
     var searchSuggestions: [AssetSuggestion] {
         suggestions.filter {
             $0.title.lowercased().hasPrefix(searchText.lowercased())
-            && (assetType == nil ? true : $0.type == assetType)
+            && isSelected($0.type)
         }
+    }
+    
+    private func isSelected(_ type: AssetType) -> Bool {
+        assetType == nil ? true : type == assetType
     }
     
     //    var filteredMessages: [Message] {
@@ -44,16 +59,26 @@ final class ViewModel: ObservableObject {
         self.isSearching = isSearching
     }
     
-    func isInList(_ item: SearchResultItem) -> Bool {
-        #warning("fix this")
-        return false
+    func isInList(_ item: Asset) -> Bool {
+        Set(watchedAssets).contains(item)
+    }
+    
+    func toggleItem(_ item: Asset) {
+        if isInList(item) {
+            watchedAssets.removeAll(where: { $0 == item })
+        } else {
+            watchedAssets.append(item)
+        }
     }
 }
 
-struct SearchResultItem: Identifiable {
+struct Asset: Hashable, Identifiable {
     let title: String
+    let text: String
+    let type: AssetType
     
     var id: String { title }
+    var icon: String { type.icon }
 }
 
 struct AssetSuggestion: Identifiable {
@@ -85,11 +110,15 @@ enum AssetType: String, CaseIterable {
     }
 }
 
-extension Array where Element == SearchResultItem {
+extension Array where Element == Asset {
     static let samples: Self = [
-        "uu", "uuu", "Uuuuu", "Uuuuuu", "Uuuuuuu", "Uuuuuuuu",
-        "bbbb", "ccc", "dd"]
-        .map(SearchResultItem.init)
+        .init(title: "Bitcoin", text: "btcusd", type: .crypto),
+        .init(title: "Bitcoin/€", text: "btceur", type: .crypto),
+        .init(title: "Tether", text: "usdt", type: .crypto),
+        .init(title: "USD Future", text: "usdf", type: .derivative),
+        .init(title: "US Stock", text: "uss", type: .stock),
+        .init(title: "USD/EUR", text: "usdeur", type: .currency),
+    ]
 }
 
 extension Array where Element == AssetSuggestion {
