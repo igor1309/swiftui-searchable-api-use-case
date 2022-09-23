@@ -25,55 +25,28 @@ struct ListView: View {
     }
     
     @ViewBuilder
-    private func searchResultView(item: Asset) -> some View {
+    private func searchResultView(asset: Asset) -> some View {
         if viewModel.shouldShowSearchResults {
-            HStack(spacing: 16) {
-                toggleInListButton(item)
-             
-                VStack(alignment: .leading) {
-                    Text(item.title)
-                        
-                    Text(item.text)
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
-                }
-            }
+            SearchResultAssetView(
+                asset: asset,
+                isInList: viewModel.isInList(asset),
+                toggleInList: viewModel.toggleInList
+            )
         } else {
             HStack(spacing: 16) {
-                Image(systemName: item.icon)
+                Image(systemName: asset.icon)
                     .imageScale(.large)
                     
                 VStack(alignment: .leading) {
-                    Text(item.title)
+                    Text(asset.title)
                         .font(.headline)
                     
-                    Text(item.text)
+                    Text(asset.text)
                         .foregroundStyle(.secondary)
                         .font(.subheadline)
                 }
             }
         }
-    }
-    
-    @ViewBuilder
-    private func toggleInListButton(_ item: Asset) -> some View {
-        let isInList = viewModel.isInList(item)
-        let title = isInList ? "Item in list" : "Add item to list"
-        let systemImage = isInList ? "checkmark" : "plus"
-        let foregroundColor = isInList ? Color.green : .accentColor
-        
-        Button {
-            viewModel.toggleItem(item)
-        } label: {
-            Label(title, systemImage: systemImage)
-                .labelStyle(.iconOnly)
-                .symbolVariant(.circle)
-                .symbolVariant(.fill)
-                .symbolRenderingMode(.hierarchical)
-                .imageScale(.large)
-        }
-        .buttonStyle(.plain)
-        .foregroundColor(foregroundColor)
     }
 }
 
