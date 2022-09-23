@@ -28,22 +28,7 @@ struct ListView: View {
     private func searchResultView(item: Asset) -> some View {
         if viewModel.shouldShowSearchResults {
             HStack {
-                let isInList = viewModel.isInList(item)
-                let title = isInList ? "Item in list" : "Add item to list"
-                let systemImage = isInList ? "checkmark" : "plus"
-                
-                Button {
-                    viewModel.toggleItem(item)
-                } label: {
-                    Label(title, systemImage: systemImage)
-                        .labelStyle(.iconOnly)
-                        .symbolVariant(.circle)
-                        .symbolVariant(.fill)
-                        .symbolRenderingMode(.hierarchical)
-                        .imageScale(.large)
-                }
-                .buttonStyle(.plain)
-                .foregroundColor(isInList ? .green : .accentColor)
+                toggleInListButton(item)
              
                 Text(item.title)
             }
@@ -51,6 +36,27 @@ struct ListView: View {
             Text(item.title)
                 .font(.headline)
         }
+    }
+    
+    @ViewBuilder
+    private func toggleInListButton(_ item: Asset) -> some View {
+        let isInList = viewModel.isInList(item)
+        let title = isInList ? "Item in list" : "Add item to list"
+        let systemImage = isInList ? "checkmark" : "plus"
+        let foregroundColor = isInList ? Color.green : .accentColor
+        
+        Button {
+            viewModel.toggleItem(item)
+        } label: {
+            Label(title, systemImage: systemImage)
+                .labelStyle(.iconOnly)
+                .symbolVariant(.circle)
+                .symbolVariant(.fill)
+                .symbolRenderingMode(.hierarchical)
+                .imageScale(.large)
+        }
+        .buttonStyle(.plain)
+        .foregroundColor(foregroundColor)
     }
 }
 
