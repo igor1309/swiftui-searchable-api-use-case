@@ -75,6 +75,28 @@ struct ContentView: View {
     }
 }
 
+/// Utility view: the main purpose of this view is to report back to the parent
+/// the `isSearching` state from the `Environment`.
+private struct SearchableView<Content: View>: View {
+    @Environment(\.isSearching) private var isSearching
+    
+    private let setIsSearching: (Bool) -> Void
+    private let content: () -> Content
+    
+    init(
+        setIsSearching: @escaping (Bool) -> Void,
+        content: @escaping () -> Content
+    ) {
+        self.setIsSearching = setIsSearching
+        self.content = content
+    }
+    
+    var body: some View {
+        content()
+            .onChange(of: isSearching, perform: setIsSearching)
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(viewModel: .init(search: searchPublisher))
