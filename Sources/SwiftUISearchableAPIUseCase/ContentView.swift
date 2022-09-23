@@ -8,7 +8,38 @@
 import Combine
 import SwiftUI
 
+struct ListView: View {
+    @Environment(\.isSearching) var isSearching
+    
+    @ObservedObject private var viewModel: ViewModel
+    
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        List {
+            ForEach(viewModel.searchResults, content: searchResultView)
+        }
+        .safeAreaInset(edge: .bottom) {
+            VStack {
+                Text(isSearching ? "Searching" : "Not Searching")
+                Text(viewModel.isSearching ? "Searching" : "Not Searching")
+                    .foregroundColor(.secondary)
+            }
+            .font(.caption)
+        }
+        .onChange(of: isSearching, perform: viewModel.setIsSearching(to:))
+    }
+    
+    private func searchResultView(item: SearchResultItem) -> some View {
+        Text(item.title)
+            .font(.headline)
+    }
+}
+
 struct ContentView: View {
+    
     @ObservedObject private var viewModel: ViewModel
     
     init(viewModel: ViewModel) {
@@ -17,11 +48,9 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.searchResults, content: searchResultView)
-            }
-            .listStyle(.plain)
-            .navigationTitle("Title")
+            ListView(viewModel: viewModel)
+                .listStyle(.plain)
+                .navigationTitle("Title")
         }
         .searchable(
             text: $viewModel.searchText,
@@ -37,11 +66,6 @@ struct ContentView: View {
         .searchSuggestions {
             ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
         }
-    }
-    
-    private func searchResultView(item: SearchResultItem) -> some View {
-        Text(item.title)
-            .font(.headline)
     }
     
     private func searchSuggestionView(item: Asset) -> some View {

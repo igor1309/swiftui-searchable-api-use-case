@@ -14,6 +14,8 @@ final class ViewModel: ObservableObject {
     @Published private(set) var searchResults = [SearchResultItem]()
     @Published var assetType: Asset.AssetType?
     
+    var isSearching: Bool = false
+    
     typealias SearchResultsPublisher = AnyPublisher<[SearchResultItem], Never>
     
     init(search: @escaping (String) -> SearchResultsPublisher) {
@@ -38,6 +40,9 @@ final class ViewModel: ObservableObject {
     //        }
     //    }
     
+    func setIsSearching(to isSearching: Bool) {
+        self.isSearching = isSearching
+    }
 }
 
 struct SearchResultItem: Identifiable {
