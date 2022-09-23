@@ -26,6 +26,10 @@ final class ViewModel: ObservableObject {
             .assign(to: &$searchResults)
     }
     
+    var isSearchTextEmpty: Bool {
+        searchText.isEmpty
+    }
+    
     var shouldShowSearchResults: Bool {
         isSearching && !searchText.isEmpty
     }

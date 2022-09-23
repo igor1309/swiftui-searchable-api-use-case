@@ -30,12 +30,14 @@ struct ContentView: View {
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Enter \"U\" or \"Uu\" to start"
+            prompt: "Enter \"U\" to start"
         )
         .searchScopes($viewModel.assetType) {
-            ForEach(AssetType.allCases + [nil], id: \.self) { scope in
-                Text(scope?.rawValue ?? "all")
-                    .tag(scope)
+            if !viewModel.isSearchTextEmpty {
+                ForEach(AssetType.allCases + [nil], id: \.self) { scope in
+                    Text(scope?.rawValue ?? "all")
+                        .tag(scope)
+                }
             }
         }
 //        .searchSuggestions {
