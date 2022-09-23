@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ListView: View {
     
-    @Environment(\.isSearching) var isSearching
+    @Environment(\.isSearching) private var isSearching
     
     @ObservedObject private var viewModel: ViewModel
     
