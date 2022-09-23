@@ -24,7 +24,8 @@ struct ContentView: View {
                 assetView: assetView
             )
             .listStyle(.plain)
-            .navigationTitle("Title")
+            .navigationTitle("Watch List")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .searchable(
             text: $viewModel.searchText,
@@ -37,9 +38,9 @@ struct ContentView: View {
                     .tag(scope)
             }
         }
-        .searchSuggestions {
-            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
-        }
+//        .searchSuggestions {
+//            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+//        }
     }
 
     @ViewBuilder
