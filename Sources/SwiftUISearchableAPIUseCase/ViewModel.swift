@@ -38,8 +38,7 @@ final class ViewModel: ObservableObject {
     
     var searchSuggestions: [AssetSuggestion] {
         suggestions.filter {
-            $0.title.lowercased().hasPrefix(searchText.lowercased())
-            && isSelected($0.type)
+            searchText.isEmpty && isSelected($0.type)
         }
     }
     
@@ -123,6 +122,8 @@ extension Array where Element == Asset {
 
 extension Array where Element == AssetSuggestion {
     static let samples: Self = [
+        .init(title: "Bitcoin", text: "btcusd", type: .crypto),
+        .init(title: "Etherium", text: "ethusd", type: .crypto),
         .init(title: "Tether", text: "usdt", type: .crypto),
         .init(title: "USD Future", text: "usdf", type: .derivative),
         .init(title: "US Stock", text: "uss", type: .stock),

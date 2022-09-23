@@ -85,9 +85,9 @@ struct ContentView: View {
                     .tag(scope)
             }
         }
-//        .searchSuggestions {
-//            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
-//        }
+        .searchSuggestions {
+            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+        }
     }
     
     private func searchSuggestionView(item: AssetSuggestion) -> some View {
