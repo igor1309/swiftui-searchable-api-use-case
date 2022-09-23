@@ -12,7 +12,7 @@ final class ViewModel: ObservableObject {
     @Published var searchText = ""
     @Published private var suggestions = [Asset].samples
     @Published private(set) var searchResults = [SearchResultItem]()
-    @Published var assetType: Asset.AssetType?
+    @Published var assetType: AssetType?
     
     var isSearching: Bool = false
     
@@ -63,24 +63,24 @@ struct Asset: Identifiable {
     
     var id: String { title }
     var icon: String { type.icon }
+}
 
-    enum AssetType: String, CaseIterable {
-        case currency
-        case crypto
-        case stock
-        case derivative
-        
-        var icon: String {
-            switch self {
-            case .currency:
-                return "dollarsign.circle"
-            case .crypto:
-                return "bitcoinsign.square"
-            case .stock:
-                return "folder"
-            case .derivative:
-                return "scribble.variable"
-            }
+enum AssetType: String, CaseIterable {
+    case currency
+    case crypto
+    case stock
+    case derivative
+    
+    var icon: String {
+        switch self {
+        case .currency:
+            return "dollarsign.circle"
+        case .crypto:
+            return "bitcoinsign.square"
+        case .stock:
+            return "folder"
+        case .derivative:
+            return "scribble.variable"
         }
     }
 }

@@ -82,7 +82,7 @@ struct ContentView: View {
             prompt: "Enter \"U\" or \"Uu\" to start"
         )
         .searchScopes($viewModel.assetType) {
-            ForEach(Asset.AssetType.allCases + [nil], id: \.self) { scope in
+            ForEach(AssetType.allCases + [nil], id: \.self) { scope in
                 Text(scope?.rawValue ?? "all")
                     .tag(scope)
             }
