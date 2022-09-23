@@ -31,7 +31,7 @@ public struct ContentView: View {
         .searchable(
             text: $viewModel.searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Enter \"U\" to start"
+            prompt: "Search currencies, cryptos, stocks..."
         )
         .searchScopes($viewModel.assetType, scopes: scopes)
 //        .searchSuggestions {
