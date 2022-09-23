@@ -1,3 +1,3 @@
 # swiftui-searchable-api-use-case
 
-A description of this package.
+To see tokens use case switch to branch `tokens`.
