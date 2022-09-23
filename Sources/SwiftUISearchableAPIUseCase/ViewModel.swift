@@ -54,16 +54,29 @@ struct SearchResultItem: Identifiable {
 struct Asset: Identifiable {
     let title: String
     let text: String
-    let icon: String
     let type: AssetType
     
     var id: String { title }
+    var icon: String { type.icon }
 
     enum AssetType: String, CaseIterable {
         case currency
         case crypto
         case stock
         case derivative
+        
+        var icon: String {
+            switch self {
+            case .currency:
+                return "dollarsign.circle"
+            case .crypto:
+                return "bitcoinsign.square"
+            case .stock:
+                return "folder"
+            case .derivative:
+                return "scribble.variable"
+            }
+        }
     }
 }
 
@@ -76,9 +89,9 @@ extension Array where Element == SearchResultItem {
 
 extension Array where Element == Asset {
     static let samples: Self = [
-        .init(title: "usdt", text: "tether", icon: "t.circle", type: .crypto),
-        .init(title: "usdf", text: "USD Future", icon: "dollarsign.circle", type: .derivative),
-        .init(title: "uss", text: "US Stock", icon: "dollarsign.square", type: .stock),
-        .init(title: "usdeur", text: "USD/EUR", icon: "eurosign.circle", type: .currency),
+        .init(title: "Tether", text: "usdt", type: .crypto),
+        .init(title: "USD Future", text: "usdf", type: .derivative),
+        .init(title: "US Stock", text: "uss", type: .stock),
+        .init(title: "USD/EUR", text: "usdeur", type: .currency),
     ]
 }
