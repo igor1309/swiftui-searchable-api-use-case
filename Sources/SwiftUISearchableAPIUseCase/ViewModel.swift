@@ -62,7 +62,7 @@ final class ViewModel: ObservableObject {
         Set(watchedAssets).contains(item)
     }
     
-    func toggleItem(_ item: Asset) {
+    func toggleInList(_ item: Asset) {
         if isInList(item) {
             watchedAssets.removeAll(where: { $0 == item })
         } else {
@@ -111,22 +111,30 @@ enum AssetType: String, CaseIterable {
 
 extension Array where Element == Asset {
     static let samples: Self = [
-        .init(title: "Bitcoin", text: "btcusd", type: .crypto),
-        .init(title: "Bitcoin/€", text: "btceur", type: .crypto),
-        .init(title: "Tether", text: "usdt", type: .crypto),
-        .init(title: "USD Future", text: "usdf", type: .derivative),
-        .init(title: "US Stock", text: "uss", type: .stock),
-        .init(title: "USD/EUR", text: "usdeur", type: .currency),
+        .bitcoin, .etherium, .tether, .usdFuture, .usStock, .usdEur
     ]
+}
+
+extension Asset {
+    static let bitcoin: Self = .init(title: "Bitcoin", text: "btcusd", type: .crypto)
+    static let etherium: Self = .init(title: "Etherium", text: "ethusd", type: .crypto)
+    static let tether: Self = .init(title: "Tether", text: "usdt", type: .crypto)
+    static let usdFuture: Self = .init(title: "USD Future", text: "usdf", type: .derivative)
+    static let usStock: Self = .init(title: "US Stock", text: "uss", type: .stock)
+    static let usdEur: Self = .init(title: "USD/EUR", text: "usdeur", type: .currency)
 }
 
 extension Array where Element == AssetSuggestion {
     static let samples: Self = [
-        .init(title: "Bitcoin", text: "btcusd", type: .crypto),
-        .init(title: "Etherium", text: "ethusd", type: .crypto),
-        .init(title: "Tether", text: "usdt", type: .crypto),
-        .init(title: "USD Future", text: "usdf", type: .derivative),
-        .init(title: "US Stock", text: "uss", type: .stock),
-        .init(title: "USD/EUR", text: "usdeur", type: .currency),
+        .bitcoin, .etherium, .tether, .usdFuture, .usStock, .usdEur
     ]
+}
+
+extension AssetSuggestion {
+    static let bitcoin: Self = .init(title: "Bitcoin", text: "btcusd", type: .crypto)
+    static let etherium: Self = .init(title: "Etherium", text: "ethusd", type: .crypto)
+    static let tether: Self = .init(title: "Tether", text: "usdt", type: .crypto)
+    static let usdFuture: Self = .init(title: "USD Future", text: "usdf", type: .derivative)
+    static let usStock: Self = .init(title: "US Stock", text: "uss", type: .stock)
+    static let usdEur: Self = .init(title: "USD/EUR", text: "usdeur", type: .currency)
 }
