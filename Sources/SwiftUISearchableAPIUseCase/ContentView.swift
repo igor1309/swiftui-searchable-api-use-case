@@ -32,14 +32,7 @@ struct ContentView: View {
             placement: .navigationBarDrawer(displayMode: .always),
             prompt: "Enter \"U\" to start"
         )
-        .searchScopes($viewModel.assetType) {
-            if !viewModel.isSearchTextEmpty {
-                ForEach(AssetType.allCases + [nil], id: \.self) { scope in
-                    Text(scope?.rawValue ?? "all")
-                        .tag(scope)
-                }
-            }
-        }
+        .searchScopes($viewModel.assetType, scopes: scopes)
 //        .searchSuggestions {
 //            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
 //        }
@@ -55,6 +48,16 @@ struct ContentView: View {
             )
         } else {
             AssetView(asset: asset)
+        }
+    }
+    
+    @ViewBuilder
+    private func scopes() -> some View {
+        if !viewModel.isSearchTextEmpty {
+            ForEach(AssetType.allCases + [nil], id: \.self) { scope in
+                Text(scope?.rawValue ?? "all")
+                    .tag(scope)
+            }
         }
     }
     
