@@ -23,6 +23,7 @@ struct ContentView: View {
                 setIsSearching: viewModel.setIsSearching,
                 assetView: assetView
             )
+            .animation(.easeInOut, value: viewModel.assets)
             .listStyle(.plain)
             .navigationTitle("Watch List")
             .navigationBarTitleDisplayMode(.inline)
