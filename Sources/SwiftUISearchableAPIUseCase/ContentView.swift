@@ -76,8 +76,10 @@ struct ContentView: View {
         }
         .searchable(
             text: $viewModel.searchText,
+            tokens: $viewModel.tokens,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Enter \"U\" or \"Uu\" to start"
+            prompt: "Enter \"U\" or \"Uu\" to start",
+            token: tokenView
         )
         .searchScopes($viewModel.assetType) {
             ForEach(AssetType.allCases + [nil], id: \.self) { scope in
@@ -88,6 +90,10 @@ struct ContentView: View {
         .searchSuggestions {
             ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
         }
+    }
+    
+    private func tokenView(token: ViewModel.Token) -> some View {
+        Text(token.title)
     }
     
     private func searchSuggestionView(item: AssetSuggestion) -> some View {

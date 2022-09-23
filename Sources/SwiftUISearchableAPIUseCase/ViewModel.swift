@@ -9,6 +9,23 @@ import Combine
 import Foundation
 
 final class ViewModel: ObservableObject {
+    enum Token: String, CaseIterable, Identifiable, Hashable {
+        case bitcoin
+        case usdeur = "usd/eur"
+        
+        var id: Self { self }
+        
+        var title: String {
+            switch self {
+            case .bitcoin:
+                return "Bitcoin"
+            case .usdeur:
+                return "USD/EUR"
+            }
+        }
+    }
+    
+    @Published var tokens: [Token] = []
     @Published private var watchedAssets = [Asset]()
     @Published private var searchResults = [Asset]()
     @Published var searchText = ""
@@ -21,6 +38,7 @@ final class ViewModel: ObservableObject {
     
     init(search: @escaping (String) -> SearchResultsPublisher) {
         $searchText
+            .handleEvents(receiveOutput: makeToken)
             .flatMap(search)
             .receive(on: DispatchQueue.main)
             .assign(to: &$searchResults)
@@ -44,6 +62,13 @@ final class ViewModel: ObservableObject {
     
     private func isSelected(_ type: AssetType) -> Bool {
         assetType == nil ? true : type == assetType
+    }
+    
+    private func makeToken(from string: String) {
+        if let token = Token(rawValue: string.lowercased()),
+           !Set(tokens).contains(token) {
+            tokens.append(token)
+        }
     }
     
     //    var filteredMessages: [Message] {
