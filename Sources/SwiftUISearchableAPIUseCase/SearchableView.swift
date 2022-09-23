@@ -7,42 +7,37 @@
 
 import SwiftUI
 
-struct SearchableView<AssetView: View>: View {
-    
+struct SearchableView<Content: View>: View {
     @Environment(\.isSearching) private var isSearching
     
-    private let assets: [Asset]
     private let setIsSearching: (Bool) -> Void
-    private let assetView: (Asset) -> AssetView
+    private let content: () -> Content
     
     init(
-        assets: [Asset],
         setIsSearching: @escaping (Bool) -> Void,
-        assetView: @escaping (Asset) -> AssetView
+        content: @escaping () -> Content
     ) {
-        self.assets = assets
         self.setIsSearching = setIsSearching
-        self.assetView = assetView
+        self.content = content
     }
     
     var body: some View {
-        List {
-            ForEach(assets, content: assetView)
-        }
-        .onChange(of: isSearching, perform: setIsSearching)
+        content()
+            .onChange(of: isSearching, perform: setIsSearching)
     }
 }
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SearchableView(
-                assets: .samples,
-                setIsSearching: { _ in }
-            ) { Text($0.title) }
-                .listStyle(.plain)
-                .navigationBarTitle("Assets")
-                .navigationBarTitleDisplayMode(.inline)
+            SearchableView(setIsSearching: { _ in }) {
+                List {
+                    ForEach([Asset].samples, content: AssetView.init)
+                }
+            }
+            .listStyle(.plain)
+            .navigationBarTitle("Assets")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .preferredColorScheme(.dark)
     }

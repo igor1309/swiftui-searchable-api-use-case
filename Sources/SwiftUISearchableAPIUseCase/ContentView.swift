@@ -18,11 +18,11 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            SearchableView(
-                assets: viewModel.assets,
-                setIsSearching: viewModel.setIsSearching,
-                assetView: assetView
-            )
+            SearchableView(setIsSearching: viewModel.setIsSearching) {
+                List {
+                    ForEach(viewModel.assets, content: assetView)
+                }
+            }
             .animation(.easeInOut, value: viewModel.assets)
             .listStyle(.plain)
             .navigationTitle("Watch List")
