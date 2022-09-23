@@ -33,19 +33,7 @@ struct ListView: View {
                 toggleInList: viewModel.toggleInList
             )
         } else {
-            HStack(spacing: 16) {
-                Image(systemName: asset.icon)
-                    .imageScale(.large)
-                    
-                VStack(alignment: .leading) {
-                    Text(asset.title)
-                        .font(.headline)
-                    
-                    Text(asset.text)
-                        .foregroundStyle(.secondary)
-                        .font(.subheadline)
-                }
-            }
+            AssetView(asset: asset)
         }
     }
 }
