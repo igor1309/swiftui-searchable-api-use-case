@@ -17,6 +17,7 @@ The use of tokens is not utilized, the possible idea could be to use tokens as a
 ![Demo video](Docs/searchable_demo.mp4)
 [![Demo video](Docs/searchable_demo.png)](https://vimeo.com/753028951 "Replicating search UI of the Stocks app - demo")
 
+<div style="padding:216.41% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/753028951?h=cd902aec3f&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="searchable_demo"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 To see tokens use case switch to the branch `tokens`.
 
