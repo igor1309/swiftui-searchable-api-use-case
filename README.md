@@ -15,6 +15,8 @@ Search suggestions are active if the watchlist is empty.
 The use of tokens is not utilized, the possible idea could be to use tokens as a way to broaden or narrow the search - another dimension in addition to Scope.
 
 ![Demo video](Docs/searchable_demo.mp4)
+[![Demo video](Docs/searchable_demo.png)](https://vimeo.com/753028951 "Replicating search UI of the Stocks app - demo")
+
 
 To see tokens use case switch to the branch `tokens`.
 
