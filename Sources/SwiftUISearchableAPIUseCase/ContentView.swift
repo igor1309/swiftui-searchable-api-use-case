@@ -67,8 +67,11 @@ public struct ContentView: View {
         }
     }
     
+    @ViewBuilder
     private func searchSuggestions() -> some View {
-        ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+        if viewModel.shouldShowSuggestions {
+            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+        }
     }
     
     private func searchSuggestionView(item: AssetSuggestion) -> some View {

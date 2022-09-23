@@ -34,6 +34,10 @@ public final class ViewModel: ObservableObject {
         isSearching && !searchText.isEmpty
     }
 
+    var shouldShowSuggestions: Bool {
+        watchedAssets.isEmpty
+    }
+
     var assets: [Asset] {
         shouldShowSearchResults
         ? searchResults.filter { isSelected($0.type) }
