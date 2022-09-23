@@ -18,7 +18,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            ListView(
+            SearchableView(
                 assets: viewModel.assets,
                 setIsSearching: viewModel.setIsSearching,
                 assetView: assetView

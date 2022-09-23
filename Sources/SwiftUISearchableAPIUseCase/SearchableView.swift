@@ -1,5 +1,5 @@
 //
-//  ListView.swift
+//  SearchableView.swift
 //  
 //
 //  Created by Igor Malyarov on 23.09.2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListView<AssetView: View>: View {
+struct SearchableView<AssetView: View>: View {
     
     @Environment(\.isSearching) private var isSearching
     
@@ -36,7 +36,7 @@ struct ListView<AssetView: View>: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ListView(
+            SearchableView(
                 assets: .samples,
                 setIsSearching: { _ in }
             ) { Text($0.title) }
