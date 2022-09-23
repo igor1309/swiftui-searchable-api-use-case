@@ -27,14 +27,31 @@ struct ListView: View {
     @ViewBuilder
     private func searchResultView(item: Asset) -> some View {
         if viewModel.shouldShowSearchResults {
-            HStack {
+            HStack(spacing: 16) {
                 toggleInListButton(item)
              
-                Text(item.title)
+                VStack(alignment: .leading) {
+                    Text(item.title)
+                        
+                    Text(item.text)
+                        .foregroundStyle(.secondary)
+                        .font(.caption)
+                }
             }
         } else {
-            Text(item.title)
-                .font(.headline)
+            HStack(spacing: 16) {
+                Image(systemName: item.icon)
+                    .imageScale(.large)
+                    
+                VStack(alignment: .leading) {
+                    Text(item.title)
+                        .font(.headline)
+                    
+                    Text(item.text)
+                        .foregroundStyle(.secondary)
+                        .font(.subheadline)
+                }
+            }
         }
     }
     
