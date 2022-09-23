@@ -32,9 +32,33 @@ struct ListView: View {
         .onChange(of: isSearching, perform: viewModel.setIsSearching(to:))
     }
     
+    @ViewBuilder
     private func searchResultView(item: SearchResultItem) -> some View {
-        Text(item.title)
-            .font(.headline)
+        if isSearching && !viewModel.searchText.isEmpty {
+            let isInList = viewModel.isInList(item)
+            let title = isInList ? "Item in list" : "Add item to list"
+            let systemImage = isInList ? "checkmark" : "plus"
+            
+            HStack {
+                Button {
+                    
+                } label: {
+                    Label(title, systemImage: systemImage)
+                        .labelStyle(.iconOnly)
+                        .symbolVariant(.circle)
+                        .symbolVariant(.fill)
+                        .symbolRenderingMode(.hierarchical)
+                        .imageScale(.large)
+                }
+                .buttonStyle(.plain)
+                .foregroundColor(.accentColor)
+             
+                Text(item.title)
+            }
+        } else {
+            Text(item.title)
+                .font(.headline)
+        }
     }
 }
 
@@ -63,9 +87,9 @@ struct ContentView: View {
                     .tag(scope)
             }
         }
-        .searchSuggestions {
-            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
-        }
+//        .searchSuggestions {
+//            ForEach(viewModel.searchSuggestions, content: searchSuggestionView)
+//        }
     }
     
     private func searchSuggestionView(item: Asset) -> some View {

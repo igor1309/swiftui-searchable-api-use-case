@@ -43,6 +43,11 @@ final class ViewModel: ObservableObject {
     func setIsSearching(to isSearching: Bool) {
         self.isSearching = isSearching
     }
+    
+    func isInList(_ item: SearchResultItem) -> Bool {
+        #warning("fix this")
+        return false
+    }
 }
 
 struct SearchResultItem: Identifiable {
@@ -82,7 +87,7 @@ struct Asset: Identifiable {
 
 extension Array where Element == SearchResultItem {
     static let samples: Self = [
-        "uu", "uuu", "uuuu", "uuuuu", "uuuuuu", "uuuuuuu",
+        "uu", "uuu", "Uuuuu", "Uuuuuu", "Uuuuuuu", "Uuuuuuuu",
         "bbbb", "ccc", "dd"]
         .map(SearchResultItem.init)
 }
