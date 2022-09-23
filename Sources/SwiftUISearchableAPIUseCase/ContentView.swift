@@ -45,7 +45,7 @@ struct ContentView: View {
     @ViewBuilder
     private func assetView(asset: Asset) -> some View {
         if viewModel.shouldShowSearchResults {
-            SearchResultAssetView(
+            SearchAssetView(
                 asset: asset,
                 isInList: viewModel.isInList(asset),
                 toggleInList: viewModel.toggleInList

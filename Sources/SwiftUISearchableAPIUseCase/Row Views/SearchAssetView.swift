@@ -1,5 +1,5 @@
 //
-//  SearchResultAssetView.swift
+//  SearchAssetView.swift
 //  
 //
 //  Created by Igor Malyarov on 23.09.2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SearchResultAssetView: View {
+struct SearchAssetView: View {
     let asset: Asset
     let isInList: Bool
     let toggleInList: (Asset) -> Void
@@ -51,12 +51,12 @@ struct SearchResultAssetView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             List {
-                SearchResultAssetView(
+                SearchAssetView(
                     asset: .bitcoin,
                     isInList: true,
                     toggleInList: { _ in }
                 )
-                SearchResultAssetView(
+                SearchAssetView(
                     asset: .etherium,
                     isInList: false,
                     toggleInList: { _ in }
