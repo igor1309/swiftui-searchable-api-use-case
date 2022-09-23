@@ -8,15 +8,15 @@
 import Combine
 import SwiftUI
 
-struct ContentView: View {
+public struct ContentView: View {
     
     @ObservedObject private var viewModel: ViewModel
     
-    init(viewModel: ViewModel) {
+    public init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
     
-    var body: some View {
+    public var body: some View {
         NavigationView {
             SearchableView(setIsSearching: viewModel.setIsSearching) {
                 List {

@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-final class ViewModel: ObservableObject {
+public final class ViewModel: ObservableObject {
     @Published private var watchedAssets = [Asset]()
     @Published private var searchResults = [Asset]()
     @Published var searchText = ""
@@ -17,9 +17,9 @@ final class ViewModel: ObservableObject {
     
     private var isSearching: Bool = false
     
-    typealias SearchResultsPublisher = AnyPublisher<[Asset], Never>
+    public typealias SearchResultsPublisher = AnyPublisher<[Asset], Never>
     
-    init(search: @escaping (String) -> SearchResultsPublisher) {
+    public init(search: @escaping (String) -> SearchResultsPublisher) {
         $searchText
             .flatMap(search)
             .receive(on: DispatchQueue.main)
@@ -79,12 +79,12 @@ final class ViewModel: ObservableObject {
     }
 }
 
-struct Asset: Hashable, Identifiable {
+public struct Asset: Hashable, Identifiable {
     let title: String
     let text: String
     let type: AssetType
     
-    var id: String { title }
+    public var id: String { title }
     var icon: String { type.icon }
 }
 
